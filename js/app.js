@@ -3,23 +3,34 @@ console.log("sanity")
 const pokemonList = (pkInfo) => {
     console.log("function run")
     console.log(pkInfo.name)
+    //create html structure
+    const div1 = document.getElementById("div1")
+    const div2 = document.createElement("div")
+    div2.setAttribute("id", "div2")
+    div1.appendChild(div2)
 
+    const ul1 = document.createElement("ul") 
+    ul1.setAttribute("id", "ul1")
+    div2.appendChild(ul1)
     //picture
 
     //name
+    let pokemonName = pkInfo.name.charAt(0).toUpperCase() + pkInfo.name.slice(1)
     const pokeName = document.createElement("li")
-    document.querySelector("ul").appendChild(pokeName)
-    pokeName.textContent = `ID ` + `${pkInfo.id} ` + `${pkInfo.name}`
+    ul1.appendChild(pokeName)
+    pokeName.textContent = `ID ` + `${pkInfo.id} ` + pokemonName
 
     //height/weight
     const pokeSize = document.createElement("li")
-    document.querySelector("ul").appendChild(pokeSize)
+    ul1.appendChild(pokeSize)
     pokeSize.textContent = `Height: ` + `${pkInfo.height}` + ` Weight: ` + `${pkInfo.weight}`
 
     //abilities
+    //const ul = document.createElement("ul")
+    //document.getElementById("div1").appendChild(ul1)
     for (let i = 0; i < pkInfo.abilities.length; i++) {
         const li = document.createElement("li")
-        document.querySelector("ul").appendChild(li)
+        ul1.appendChild(li)
         li.textContent =  `Ability ` + (i+1) + ` is ` + `${pkInfo.abilities[i].ability.name}`
         }
 
