@@ -1,18 +1,29 @@
 console.log("sanity")
 
+
+let divNumber = 0;
+
+
 const pokemonList = (pkInfo) => {
     console.log("function run")
     console.log(pkInfo.name)
+
     //create html structure
     const div1 = document.getElementById("div1")
     const div2 = document.createElement("div")
     div2.setAttribute("id", "div2")
     div1.appendChild(div2)
 
+    let image = document.createElement("img")
+    div2.appendChild(image)
+
     const ul1 = document.createElement("ul") 
     ul1.setAttribute("id", "ul1")
     div2.appendChild(ul1)
+
     //picture
+    pokemonSprite = pkInfo.sprites.front_default
+    image.setAttribute("src", pokemonSprite)
 
     //name
     let pokemonName = pkInfo.name.charAt(0).toUpperCase() + pkInfo.name.slice(1)
@@ -20,38 +31,46 @@ const pokemonList = (pkInfo) => {
     ul1.appendChild(pokeName)
     pokeName.textContent = `ID ` + `${pkInfo.id} ` + pokemonName
 
+
+    //type
+    let type = document.createElement("li")
+    ul1.appendChild(type)
+    type.textContent = `Type:`
+    const ol1 = document.createElement("ol") 
+    ol1.setAttribute("id", "ol1")
+    ul1.appendChild(ol1)
+
+    for (let i = 0; i < pkInfo.types.length; i++) {
+        let pokemonType = pkInfo.types[i].type.name.charAt(0).toUpperCase() + pkInfo.types[i].type.name.slice(1)
+        const li = document.createElement("li")
+        ol1.appendChild(li)
+        li.textContent = pokemonType
+    }
+
     //height/weight
     const pokeSize = document.createElement("li")
     ul1.appendChild(pokeSize)
     pokeSize.textContent = `Height: ` + `${pkInfo.height}` + ` Weight: ` + `${pkInfo.weight}`
 
     //abilities
-    //const ul = document.createElement("ul")
-    //document.getElementById("div1").appendChild(ul1)
+    let olAbility = document.createElement("li")
+    ul1.appendChild(olAbility)
+    olAbility.textContent = `Ability(s):`
+    const ol2 = document.createElement("ol") 
+    ol2.setAttribute("id", "ol2")
+    ul1.appendChild(ol2)
+
     for (let i = 0; i < pkInfo.abilities.length; i++) {
+        let abilityName = pkInfo.abilities[i].ability.name.charAt(0).toUpperCase() + pkInfo.abilities[i].ability.name.slice(1)
         const li = document.createElement("li")
-        ul1.appendChild(li)
-        li.textContent =  `Ability ` + (i+1) + ` is ` + `${pkInfo.abilities[i].ability.name}`
+        ol2.appendChild(li)
+        li.textContent =  `Ability ` + (i+1) + ` is ` + abilityName
         }
-
-    //
-
-    // for (let i = 0; i < pkInfo.; i++) {
-    //     const li = document.createElement("li")
-    //     document.querySelector("ul").appendChild(li)
-    //     li.textContent =  ``
-    //  }
 }
 
 const button = document.querySelector("button")
 button.addEventListener("click", function(evt){
-    //const li = document.createElement("li")
     const inp = document.querySelector("input")
-    //li.textContent = inp.value
-   // inp.value = ""
-    //console.log(li.outerHTML)
-    console.log(inp.outerHTML)
-    //document.querySelector("ul").appendChild(li)
 
     let fetchPath = ""
     fetchPath = "https://pokeapi.co/api/v2/pokemon/" + inp.value
@@ -62,19 +81,8 @@ button.addEventListener("click", function(evt){
         return data.json() 
     })
     .then(function(parsedData){ 
-         const posts = parsedData
-         console.log(posts)
-        //  console.log(posts.abilities[0])
-        //  console.log(posts.abilities[0].ability)
-        //  console.log(posts.abilities[0].ability.name)
-         for (let i = 0; i < posts.abilities.length; i++) {
-        //const li = document.createElement("li")
-        //document.querySelector("ul").appendChild(li)
-        //li.textContent =  `${posts.name}` + ` ability ` + (i+1) + ` is ` + `${posts.abilities[i].ability.name}`
-        //li.textContent =  `${posts.name}` + ` ` + (i+1) + ` ` + `${posts.abilities[i].ability.name}`
-        
-        
-        }
+        const posts = parsedData
+        //console.log(posts)
         pokemonList(posts);
          
     })
@@ -82,18 +90,3 @@ button.addEventListener("click", function(evt){
 
 
 })
-
-
-
-
-
-
-    fetch(("https://pokeapi.co/api/v2/pokemon/typhlosion"))
-    .then(function(data){ 
-        return data.json() 
-    })
-    .then(function(parsedData){ 
-         const posts = parsedData
-         console.log(posts)
-    })
-
